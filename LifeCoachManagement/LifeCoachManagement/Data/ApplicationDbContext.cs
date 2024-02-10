@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using LifeCoachManagement.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LifeCoachManagement.Data
@@ -9,5 +10,8 @@ namespace LifeCoachManagement.Data
             : base(options)
         {
         }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

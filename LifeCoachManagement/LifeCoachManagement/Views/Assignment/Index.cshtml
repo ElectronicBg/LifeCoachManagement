@@ -1,0 +1,46 @@
+﻿@model IEnumerable<LifeCoachManagement.Models.Assignment>
+@{
+    ViewData["Title"] = "Assignments List";
+}
+
+<h2>Assignments List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Desired Results</th>
+            <th>Submission Date</th>
+            <th>Deadline</th>
+            <th>Budget</th>
+            <th>Assigned User</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var assignment in Model)
+        {
+            <tr>
+                <td>@assignment.Id</td>
+                <td>@assignment.Name</td>
+                <td>@assignment.Category.Name</td>
+                <td>@assignment.Status</td>
+                <td>@assignment.Description</td>
+                <td>@assignment.DesiredResults</td>
+                <td>@assignment.SubmissionDate.ToShortDateString()</td>
+                <td>@assignment.Deadline.ToShortDateString()</td>
+                <td>@assignment.Budget</td>
+                <td>@assignment.AssignedUser.UserName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@assignment.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Add New Assignment</a>
