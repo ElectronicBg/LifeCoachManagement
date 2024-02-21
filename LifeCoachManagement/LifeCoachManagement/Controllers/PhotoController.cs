@@ -2,40 +2,45 @@
 using LifeCoachManagement.Models;
 using LifeCoachManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LifeCoachManagement.Controllers
 {
     public class PhotoController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public PhotoController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Create(EditAssignmentViewModel viewModel)
-        {
-            if (viewModel.FileUpload != null && viewModel.FileUpload.Length > 0)
+        {        
+            if (viewModel.Photo.FileUpload != null && viewModel.Photo.FileUpload.Length > 0)
             {
                 // Process and save the file
-                var fileName = Path.GetFileName(viewModel.FileUpload.FileName);
+                var fileName = Path.GetFileName(viewModel.Photo.FileUpload.FileName);
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", fileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    viewModel.FileUpload.CopyTo(stream);
+                    viewModel.Photo.FileUpload.CopyTo(stream);
                 }
 
                 var photo = new Photo
                 {
-                    Status = viewModel.Status,
-                    AssignmentId = viewModel.Id,
-                    FileUpload = viewModel.FileUpload
+                    Status = viewModel.Assignment.Status,
+                    AssignmentId = viewModel.Assignment.Id,
+                    FileUpload = viewModel.Photo.FileUpload
                 };
 
                 // Add the photo to the database
                 _context.Photos.Add(photo);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
 
-                return RedirectToAction("Assignment", "Index");
+                return Ok();
             }
             else
             {

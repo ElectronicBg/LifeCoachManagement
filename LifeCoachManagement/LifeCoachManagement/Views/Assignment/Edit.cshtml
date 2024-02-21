@@ -5,61 +5,63 @@
 
 <h2>Edit Assignment</h2>
 <form method="post" asp-action="Edit" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
+
+    <input type="hidden" asp-for="@Model.Assignment.Id" />
 
     <div class="form-group">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="@Model.Assignment.Name" class="form-label"></label>
+        <input asp-for="@Model.Assignment.Name" class="form-control" />
+        <span asp-validation-for="@Model.Assignment.Name" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="CategoryId" class="form-label"></label>
-        <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
+        <label asp-for="@Model.Assignment.CategoryId" class="form-label"></label>
+        <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
             <option value="">Select a category</option>
         </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
+        <span asp-validation-for="@Model.Assignment.CategoryId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status" id="statusDropdown" class="form-control">
+        <label asp-for="@Model.Assignment.Status" class="form-label"></label>
+        <select asp-for="@Model.Assignment.Status" id="statusDropdown" class="form-control">
             @foreach (var status in Enum.GetValues(typeof(LifeCoachManagement.Models.Status)))
             {
                 <option value="@status">@status</option>
             }
         </select>
-        <span asp-validation-for="Status" class="text-danger"></span>
+        <span asp-validation-for="@Model.Assignment.Status" class="text-danger"></span>
     </div>
 
     <div id="fileUploadContainer" class="form-group" style="display: none;">
-        <label for="fileUpload" class="form-label">Upload Image:</label>
-        <input type="file" id="fileUpload" name="fileUpload" class="form-control-file" />
-        <span class="text-danger" id="fileUploadError"></span>
-    </div> 
+        <label asp-for="@Model.Photo.FileUpload" class="form-label"></label>
+        <input asp-for="@Model.Photo.FileUpload" id="photoInput" class="form-control" />
+        <span asp-validation-for="@Model.Photo.FileUpload" class="text-danger"></span>
+    </div>
+
 
     <div class="form-group">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+        <label asp-for="@Model.Assignment.Description" class="form-label"></label>
+        <textarea asp-for="@Model.Assignment.Description" class="form-control"></textarea>
+        <span asp-validation-for="@Model.Assignment.Description" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="DesiredResults" class="form-label"></label>
-        <textarea asp-for="DesiredResults" class="form-control"></textarea>
-        <span asp-validation-for="DesiredResults" class="text-danger"></span>
+        <label asp-for="@Model.Assignment.DesiredResults" class="form-label"></label>
+        <textarea asp-for="@Model.Assignment.DesiredResults" class="form-control"></textarea>
+        <span asp-validation-for="@Model.Assignment.DesiredResults" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Deadline" class="form-label"></label>
-        <input asp-for="Deadline" type="datetime-local" class="form-control" />
-        <span asp-validation-for="Deadline" class="text-danger"></span>
+        <label asp-for="@Model.Assignment.Deadline" class="form-label"></label>
+        <input asp-for="@Model.Assignment.Deadline" type="datetime-local" class="form-control" />
+        <span asp-validation-for="@Model.Assignment.Deadline" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Budget" class="form-label"></label>
-        <input asp-for="Budget" class="form-control" />
-        <span asp-validation-for="Budget" class="text-danger"></span>
+        <label asp-for="@Model.Assignment.Budget" class="form-label"></label>
+        <input asp-for="@Model.Assignment.Budget" class="form-control" />
+        <span asp-validation-for="@Model.Assignment.Budget" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Update Assignment</button>
@@ -67,32 +69,46 @@
 
 <a asp-action="Index" class="btn btn-secondary">Back to Assignments List</a>
 
-
-
 @section scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
         // AJAX call when the status is changed
-        $('#statusDropdown').change(function () {           
+        $('#statusDropdown').change(function () {
             $('#fileUploadContainer').show();
         });
 
-        // AJAX call when form is submitted
-        $('form').submit(function (e) {
+        $("form").submit(function (e) {
             e.preventDefault();
 
-            $.ajax({
-                type: 'POST',
-                url: '/Photo/Create',
-                data:,
-                success: function (data) {
-                    // Handle success response if needed
-                    console.log('New photo created successfully.');
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response if needed
-                    console.error('Error creating new photo:', error);
-                }
+            var fdata = new FormData();
+
+            var fileInput = $('input[type=file]')[0];
+            var file = fileInput.files[0];
+            fdata.append("Photo.FileUpload", file);
+
+           
+            $("input[type='text']").each(function (x, y) { 
+                fdata.append($(y).attr("name"), $(y).val());
             });
-        });
+            $("input[type='hidden']").each(function (x, y) {
+                fdata.append($(y).attr("name"), $(y).val());
+            });
+
+            $("select").each(function (index, element) {
+                fdata.append($(element).attr("name"), $(element).val());
+            });
+
+            $.ajax({
+                type: 'post',
+                url: "/Photo/Create",
+                data: fdata,
+                processData: false,
+                contentType: false
+            }).done(function (result) {
+                $(e.target).get(0).submit();
+            }).fail(function (error) {
+                console.error("Error:", error);
+            });
+        });       
     </script>
 }

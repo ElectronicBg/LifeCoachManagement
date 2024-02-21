@@ -139,3 +139,4 @@ D:\LifeCoachManagement\LifeCoachManagement\LifeCoachManagement\obj\Debug\net8.0\
 D:\LifeCoachManagement\LifeCoachManagement\LifeCoachManagement\obj\Debug\net8.0\LifeCoachManagement.pdb
 D:\LifeCoachManagement\LifeCoachManagement\LifeCoachManagement\obj\Debug\net8.0\LifeCoachManagement.genruntimeconfig.cache
 D:\LifeCoachManagement\LifeCoachManagement\LifeCoachManagement\obj\Debug\net8.0\ref\LifeCoachManagement.dll
+D:\LifeCoachManagement\LifeCoachManagement\LifeCoachManagement\bin\Debug\net8.0\Newtonsoft.Json.dll

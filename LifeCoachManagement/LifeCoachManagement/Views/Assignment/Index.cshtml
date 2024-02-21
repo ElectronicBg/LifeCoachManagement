@@ -35,6 +35,7 @@
                 <td>@assignment.Budget</td>
                 <td>@assignment.AssignedUser.UserName</td>
                 <td>
+                    <input type="hidden" asp-for="@assignment.Id" />
                     <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@assignment.Id" class="btn btn-danger">Delete</a>
                 </td>

@@ -31,6 +31,7 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
     {
+
         if (ModelState.IsValid)
         {
             _context.Add(category);

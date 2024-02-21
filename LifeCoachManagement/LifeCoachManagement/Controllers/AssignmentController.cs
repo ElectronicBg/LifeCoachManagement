@@ -3,7 +3,6 @@ using LifeCoachManagement.Models;
 using LifeCoachManagement.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace LifeCoachManagement.Controllers
@@ -65,8 +64,13 @@ namespace LifeCoachManagement.Controllers
         public IActionResult Edit(int id)
         {
             var assignment = _context.Assignments
-                .Include(a => a.Category)
-                .FirstOrDefault(a => a.Id == id);
+              .Include(a => a.Category)
+              .FirstOrDefault(a => a.Id == id);
+
+            var photo = new Photo();
+
+            var model = new EditAssignmentViewModel { Photo = photo, Assignment = assignment };
+                
 
             if (assignment == null)
             {
@@ -75,22 +79,23 @@ namespace LifeCoachManagement.Controllers
 
             ViewBag.Categories = _context.Categories.ToList();
 
-            return View(assignment);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditAssignmentViewModel editedAssignment)
         {
-            if (id != editedAssignment.Id)
+            if (id != editedAssignment.Assignment.Id)
             {
                 return NotFound();
             }
+
             // Assign current user to the assignment if applicable
             if (User.Identity.IsAuthenticated)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
-                editedAssignment.AssignedUserId = currentUser.Id;
+                editedAssignment.Assignment.AssignedUserId = currentUser.Id;
             }
 
             if (ModelState.IsValid)
@@ -105,12 +110,13 @@ namespace LifeCoachManagement.Controllers
                 }
 
 
-                _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment);
+                _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
 
 
                 _context.SaveChanges();
 
-               return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Categories = _context.Categories.ToList();
