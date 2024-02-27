@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
 namespace LifeCoachManagement.Models
 {
@@ -24,10 +23,12 @@ namespace LifeCoachManagement.Models
 
         public ICollection<Photo> Photos;
 
+        [ForeignKey("Creator")]
+        public string CreatorId { get; set; }
+        public ApplicationUser Creator { get; set; }
+
         [ForeignKey("AssignedUser")]
         public string AssignedUserId { get; set; }
-        public IdentityUser AssignedUser { get; set; }
-
-        //Field to get current user needed
+        public ApplicationUser AssignedUser { get; set; }
     }
 }

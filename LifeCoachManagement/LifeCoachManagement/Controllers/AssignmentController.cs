@@ -10,8 +10,8 @@ namespace LifeCoachManagement.Controllers
     public class AssignmentController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AssignmentController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public AssignmentController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -20,10 +20,13 @@ namespace LifeCoachManagement.Controllers
         // GET: Assignment
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
             var assignments = await _context.Assignments
                 .Include(a => a.Category)
-                .Include(a => a.AssignedUser)
-            .ToListAsync();
+                .Include(a => a.Creator)
+                .Where(a => a.CreatorId == currentUser.Id)
+                .ToListAsync();
 
             return View(assignments);
         }
@@ -31,7 +34,7 @@ namespace LifeCoachManagement.Controllers
         // GET: Assignment/Create
         public IActionResult Create()
         {
-            ViewBag.Categories= _context.Categories.ToList();
+            ViewBag.Categories = _context.Categories.ToList();
             return View();
         }
 
@@ -49,7 +52,7 @@ namespace LifeCoachManagement.Controllers
                 if (User.Identity.IsAuthenticated)
                 {
                     var currentUser = await _userManager.GetUserAsync(User);
-                    assignment.AssignedUserId = currentUser.Id;
+                    assignment.CreatorId = currentUser.Id;
                 }
 
                 _context.Add(assignment);
@@ -67,10 +70,11 @@ namespace LifeCoachManagement.Controllers
               .Include(a => a.Category)
               .FirstOrDefault(a => a.Id == id);
 
+            //Dont use the view model. It is pointless!
             var photo = new Photo();
 
             var model = new EditAssignmentViewModel { Photo = photo, Assignment = assignment };
-                
+
 
             if (assignment == null)
             {
@@ -95,7 +99,7 @@ namespace LifeCoachManagement.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
-                editedAssignment.Assignment.AssignedUserId = currentUser.Id;
+                editedAssignment.Assignment.CreatorId = currentUser.Id;
             }
 
             if (ModelState.IsValid)
@@ -112,9 +116,7 @@ namespace LifeCoachManagement.Controllers
 
                 _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
 
-
                 _context.SaveChanges();
-
 
                 return RedirectToAction(nameof(Index));
             }

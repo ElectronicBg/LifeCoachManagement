@@ -33,11 +33,14 @@
                 <td>@assignment.SubmissionDate.ToShortDateString()</td>
                 <td>@assignment.Deadline.ToShortDateString()</td>
                 <td>@assignment.Budget</td>
-                <td>@assignment.AssignedUser.UserName</td>
+                <td>@assignment.Creator.UserName</td>
                 <td>
                     <input type="hidden" asp-for="@assignment.Id" />
                     <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@assignment.Id" class="btn btn-danger">Delete</a>
+
+                    <form asp-action="Delete" asp-route-id="@assignment.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this assignment?');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
