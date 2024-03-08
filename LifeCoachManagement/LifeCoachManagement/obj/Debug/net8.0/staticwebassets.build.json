@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5YUW8Mew61SFcHYmu8u9YoSVirlOEsL/C6db1C/UwC8=",
+  "Hash": "1iUJgY0wPAnnhFFcsu3bcCvaiHrTc8TiX4/IgDnbX8k=",
   "Source": "LifeCoachManagement",
   "BasePath": "_content/LifeCoachManagement",
   "Mode": "Default",
@@ -2371,6 +2371,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Uploads\\WIN_20230929_09_42_46_Pro.jpg",
+      "SourceId": "LifeCoachManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\",
+      "BasePath": "_content/LifeCoachManagement",
+      "RelativePath": "Uploads/WIN_20230929_09_42_46_Pro.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\WIN_20230929_09_42_46_Pro.jpg"
     }
   ]
 }

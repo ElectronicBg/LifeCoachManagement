@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LifeCoachManagement.ViewModels
 {
@@ -9,5 +10,6 @@ namespace LifeCoachManagement.ViewModels
     {
         public Assignment Assignment { get; set; }
         public Photo Photo { get; set; }
+        public SelectList AssignedUsers { get; set; }
     }
 }

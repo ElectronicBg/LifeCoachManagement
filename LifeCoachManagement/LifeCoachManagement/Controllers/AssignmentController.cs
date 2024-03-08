@@ -3,6 +3,7 @@ using LifeCoachManagement.Models;
 using LifeCoachManagement.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace LifeCoachManagement.Controllers
@@ -22,11 +23,42 @@ namespace LifeCoachManagement.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            var assignments = await _context.Assignments
-                .Include(a => a.Category)
-                .Include(a => a.Creator)
-                .Where(a => a.CreatorId == currentUser.Id)
-                .ToListAsync();
+            List<Assignment> assignments;
+
+            // Check the user's role and fetch assignments accordingly
+            if (User.IsInRole(Roles.Admin.ToString()))
+            {
+                assignments = await _context.Assignments
+                    .Include(a => a.Category)
+                    .Include(a => a.Creator)
+                    .Include(a => a.AssignedUser)
+                    .ToListAsync();
+            }
+            else if (User.IsInRole(Roles.Coach.ToString()))
+            {
+                assignments = await _context.Assignments
+                    .Include(a => a.Category)
+                    .Include(a => a.Creator)
+                    .Where(a => a.AssignedUserId == currentUser.Id) 
+                    .ToListAsync();
+            }
+            else if (User.IsInRole(Roles.Client.ToString()))
+            {
+                assignments = await _context.Assignments
+                    .Include(a => a.Category)
+                    .Include(a => a.Creator)
+                    .Include(a => a.AssignedUser)
+                    .Where(a => a.CreatorId == currentUser.Id)
+                    .ToListAsync();
+            }
+            else
+            {
+                // Handle unauthenticated or unauthorized users
+                return RedirectToAction("AccessDenied", "Account");
+            }
+
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Statuses = Enum.GetValues(typeof(Status)).Cast<Status>().ToList();
 
             return View(assignments);
         }
@@ -70,16 +102,20 @@ namespace LifeCoachManagement.Controllers
               .Include(a => a.Category)
               .FirstOrDefault(a => a.Id == id);
 
-            //Dont use the view model. It is pointless!
-            var photo = new Photo();
-
-            var model = new EditAssignmentViewModel { Photo = photo, Assignment = assignment };
-
-
             if (assignment == null)
             {
                 return NotFound();
             }
+
+            var usersWithCoachRole = _userManager.GetUsersInRoleAsync(Roles.Coach.ToString()).Result;
+
+
+            var model = new EditAssignmentViewModel
+            {
+                Assignment = assignment,
+                Photo = new Photo(),
+                AssignedUsers = new SelectList(usersWithCoachRole, "Id", "UserName")
+            };
 
             ViewBag.Categories = _context.Categories.ToList();
 
@@ -100,6 +136,7 @@ namespace LifeCoachManagement.Controllers
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 editedAssignment.Assignment.CreatorId = currentUser.Id;
+
             }
 
             if (ModelState.IsValid)
@@ -113,6 +150,10 @@ namespace LifeCoachManagement.Controllers
                     return NotFound();
                 }
 
+                var assignedUser = await _userManager.FindByIdAsync(editedAssignment.Assignment.AssignedUserId);
+
+                // Set the AssignedUser property of the assignment
+               editedAssignment.Assignment.AssignedUser = assignedUser;
 
                 _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
 
@@ -141,7 +182,30 @@ namespace LifeCoachManagement.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeStatus(int id, string newStatus)
+        {
+            var assignment = await _context.Assignments.FindAsync(id);
 
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            if (Enum.TryParse<Status>(newStatus, out var status))
+            {
+                assignment.Status = status;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                // Handle invalid status
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
         private bool AssignmentExists(int id)
         {
             return _context.Assignments.Any(e => e.Id == id);

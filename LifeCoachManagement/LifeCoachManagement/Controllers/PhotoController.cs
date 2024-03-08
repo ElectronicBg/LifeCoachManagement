@@ -18,7 +18,7 @@ namespace LifeCoachManagement.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Create(EditAssignmentViewModel viewModel)
         {        
-            if (viewModel.Photo.FileUpload != null && viewModel.Photo.FileUpload.Length > 0)
+            if (viewModel.Photo!=null && viewModel.Photo.FileUpload != null && viewModel.Photo.FileUpload.Length > 0)
             {
                 // Process and save the file
                 var fileName = Path.GetFileName(viewModel.Photo.FileUpload.FileName);

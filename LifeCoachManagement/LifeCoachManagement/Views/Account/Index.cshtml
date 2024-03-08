@@ -2,26 +2,44 @@
 
 <h1>User List</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@user.Id</td>
-                <td>@user.Name</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-                </td>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Change Role</th>
+                <th>Delete</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@string.Join(", ", ViewBag.UserRoles[user])</td>
+                    <td>
+                        <form asp-controller="Account" asp-action="ChangeRole" method="post">
+                            <input type="hidden" name="UserId" value="@user.Id" />
+                            @{
+                                var selectedRole = ViewBag.UserRoles[user].Count > 0 ? ViewBag.UserRoles[user][0] : null;
+                            }
+
+                            @Html.DropDownList("RoleName", new SelectList(ViewBag.Roles, selectedRole), new { @class = "form-control" })
+
+                            <button type="submit" class="btn btn-primary">Change Role</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

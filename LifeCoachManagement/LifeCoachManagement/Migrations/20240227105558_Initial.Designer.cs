@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LifeCoachManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240221194202_Initial")]
+    [Migration("20240227105558_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,6 +43,12 @@ namespace LifeCoachManagement.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

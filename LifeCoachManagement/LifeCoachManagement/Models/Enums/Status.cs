@@ -8,6 +8,6 @@ namespace LifeCoachManagement.Models
         AssignedToCoach,
         ForReview,
         Completed,
-        Cancelled
+        Cancelled,          
     }
 }
