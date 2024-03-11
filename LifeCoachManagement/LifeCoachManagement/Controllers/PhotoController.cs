@@ -16,24 +16,24 @@ namespace LifeCoachManagement.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult Create(EditAssignmentViewModel viewModel)
+        public IActionResult Create(CoachEditAssignmentViewModel viewModel)
         {        
-            if (viewModel.Photo!=null && viewModel.Photo.FileUpload != null && viewModel.Photo.FileUpload.Length > 0)
+            if (viewModel.FileUpload != null && viewModel.FileUpload.Length > 0)
             {
                 // Process and save the file
-                var fileName = Path.GetFileName(viewModel.Photo.FileUpload.FileName);
+                var fileName = Path.GetFileName(viewModel.FileUpload.FileName);
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", fileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    viewModel.Photo.FileUpload.CopyTo(stream);
+                    viewModel.FileUpload.CopyTo(stream);
                 }
 
                 var photo = new Photo
                 {
-                    Status = viewModel.Assignment.Status,
-                    AssignmentId = viewModel.Assignment.Id,
-                    FileUpload = viewModel.Photo.FileUpload
+                    Status = viewModel.Status,
+                    AssignmentId = viewModel.Id,
+                    FileUpload = viewModel.FileUpload
                 };
 
                 // Add the photo to the database

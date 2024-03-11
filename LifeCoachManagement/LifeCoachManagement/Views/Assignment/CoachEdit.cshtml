@@ -1,0 +1,78 @@
+﻿@model LifeCoachManagement.ViewModels.CoachEditAssignmentViewModel
+@{
+    ViewData["Title"] = "ChangeStatus";
+}
+
+<h2>Edit Assignment</h2>
+<form method="post" asp-action="CoachEdit" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="@Model.Id" />
+
+    <div id="fileUploadContainer" class="form-group" style="display: none;">
+        <label asp-for="@Model.FileUpload" class="form-label"></label>
+        <input asp-for="@Model.FileUpload" id="photoInput" class="form-control" />
+        <span asp-validation-for="@Model.FileUpload" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Status" class="form-label"></label>
+        <select asp-for="@Model.Status" id="statusDropdown" class="form-control">
+            @foreach (var status in Enum.GetValues(typeof(LifeCoachManagement.Models.Status)))
+            {
+                <option value="@status">@status</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.Status" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Assignment</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Assignments List</a>
+@section scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // AJAX call when the status is changed
+        $('#statusDropdown').change(function () {
+            $('#fileUploadContainer').show();
+        });
+
+        $("form").submit(function (e) {
+            var fileInput = $('input[type=file]')[0];
+            var file = fileInput.files[0];
+            if (file) { // Check if a file was selected
+                e.preventDefault()
+
+                var fdata = new FormData();
+
+                var fileInput = $('input[type=file]')[0];
+                var file = fileInput.files[0];
+                fdata.append("FileUpload", file);
+
+
+                $("input[type='text']").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+                $("input[type='hidden']").each(function (x, y) {
+                    fdata.append($(y).attr("name"), $(y).val());
+                });
+
+                $("select").each(function (index, element) {
+                    fdata.append($(element).attr("name"), $(element).val());
+                });
+
+                $.ajax({
+                    type: 'post',
+                    url: "/Photo/Create",
+                    data: fdata,
+                    processData: false,
+                    contentType: false
+                }).done(function (result) {
+                    $(e.target).get(0).submit();
+                }).fail(function (error) {
+                    console.error("Error:", error);
+                });
+            }
+        });
+    </script>
+}

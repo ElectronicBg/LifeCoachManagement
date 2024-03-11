@@ -9,7 +9,6 @@ namespace LifeCoachManagement.ViewModels
     public class EditAssignmentViewModel
     {
         public Assignment Assignment { get; set; }
-        public Photo Photo { get; set; }
         public SelectList AssignedUsers { get; set; }
     }
 }

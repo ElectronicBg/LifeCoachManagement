@@ -39,7 +39,7 @@ namespace LifeCoachManagement.Controllers
                 assignments = await _context.Assignments
                     .Include(a => a.Category)
                     .Include(a => a.Creator)
-                    .Where(a => a.AssignedUserId == currentUser.Id) 
+                    .Where(a => a.AssignedUserId == currentUser.Id)
                     .ToListAsync();
             }
             else if (User.IsInRole(Roles.Client.ToString()))
@@ -113,7 +113,6 @@ namespace LifeCoachManagement.Controllers
             var model = new EditAssignmentViewModel
             {
                 Assignment = assignment,
-                Photo = new Photo(),
                 AssignedUsers = new SelectList(usersWithCoachRole, "Id", "UserName")
             };
 
@@ -153,7 +152,7 @@ namespace LifeCoachManagement.Controllers
                 var assignedUser = await _userManager.FindByIdAsync(editedAssignment.Assignment.AssignedUserId);
 
                 // Set the AssignedUser property of the assignment
-               editedAssignment.Assignment.AssignedUser = assignedUser;
+                editedAssignment.Assignment.AssignedUser = assignedUser;
 
                 _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
 
@@ -165,6 +164,74 @@ namespace LifeCoachManagement.Controllers
             ViewBag.Categories = _context.Categories.ToList();
 
             return View("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> CoachEdit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new CoachEditAssignmentViewModel
+            {
+                Id = assignment.Id,
+                Status = assignment.Status,
+            };
+
+            return View("CoachEdit", viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CoachEdit(CoachEditAssignmentViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var assignment = await _context.Assignments.FindAsync(viewModel.Id);
+
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            assignment.Status = viewModel.Status;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeStatus(int id, string newStatus)
+        {
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+
+            if (Enum.TryParse<Status>(newStatus, out var status))
+            {
+                assignment.Status = status;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return BadRequest("Invalid status");
+            }
         }
 
         [HttpPost]
@@ -181,30 +248,6 @@ namespace LifeCoachManagement.Controllers
             _context.Assignments.Remove(assignment);
             _context.SaveChanges();
             return RedirectToAction("Index");
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeStatus(int id, string newStatus)
-        {
-            var assignment = await _context.Assignments.FindAsync(id);
-
-            if (assignment == null)
-            {
-                return NotFound();
-            }
-
-            if (Enum.TryParse<Status>(newStatus, out var status))
-            {
-                assignment.Status = status;
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                // Handle invalid status
-                return BadRequest();
-            }
-
-            return RedirectToAction(nameof(Index));
         }
         private bool AssignmentExists(int id)
         {

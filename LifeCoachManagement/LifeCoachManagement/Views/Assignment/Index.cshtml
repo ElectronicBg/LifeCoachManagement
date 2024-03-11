@@ -54,21 +54,21 @@
                     <p class="card-text">Deadline: @assignment.Deadline.ToShortDateString()</p>
                     <p class="card-text">Budget: @assignment.Budget</p>
                     <p class="card-text">Assigned User: @(assignment.AssignedUser != null ? assignment.AssignedUser.UserName : "To be assigned")</p>
-                    <form asp-action="ChangeStatus" asp-route-id="@assignment.Id" method="post">
+
+                    <form method="post" asp-action="ChangeStatus" asp-route-id="@assignment.Id">
                         @if (assignment.Status == Status.ForReview && User.IsInRole(Roles.Admin.ToString()))
                         {
-                            <input type="hidden" name="newStatus" value="Completed" />
-                            <button type="submit" class="btn btn-success">Mark as Completed</button>
+                            <button type="submit" name="newStatus" value="Completed" class="btn btn-success">Mark as Completed</button>
                         }
                         @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Admin.ToString()))
                         {
-                            <input type="hidden" name="newStatus" value="Cancelled" />
-                            <button type="submit" class="btn btn-warning">Cancel</button>
+                            <button type="submit" name="newStatus" value="Cancelled" class="btn btn-warning">Cancel</button>
                         }
                     </form>
+
                     @if (assignment.Status == Status.AssignedToCoach && User.IsInRole(Roles.Coach.ToString()))
                     {
-                        <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
+                        <a asp-action="CoachEdit" asp-route-id="@assignment.Id" class="btn btn-primary">ChangeStatus</a>
                     }
                     @if (User.IsInRole(Roles.Admin.ToString()))
                     {
