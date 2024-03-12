@@ -13,9 +13,14 @@ namespace LifeCoachManagement.Controllers
         {
             _context = context;
         }
-
+        public IActionResult Index(int assignmentId)
+        {
+            var photos = _context.Photos
+                .Where(p => p.AssignmentId == assignmentId)
+                .ToList();
+            return View(photos);
+        }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public IActionResult Create(CoachEditAssignmentViewModel viewModel)
         {        
             if (viewModel.FileUpload != null && viewModel.FileUpload.Length > 0)
@@ -31,9 +36,10 @@ namespace LifeCoachManagement.Controllers
 
                 var photo = new Photo
                 {
+                    FileName = fileName,
+                    FileUpload = viewModel.FileUpload,
                     Status = viewModel.Status,
-                    AssignmentId = viewModel.Id,
-                    FileUpload = viewModel.FileUpload
+                    AssignmentId = viewModel.Id                 
                 };
 
                 // Add the photo to the database

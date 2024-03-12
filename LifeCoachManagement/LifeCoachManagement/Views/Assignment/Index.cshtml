@@ -5,7 +5,6 @@
 }
 
 <h2>Assignments List</h2>
-
 <div class="row">
     <div class="col-md-4">
         <div class="form-group">
@@ -77,6 +76,7 @@
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     }
+                    <a href="@Url.Action("Index", "Photo", new { assignmentId = assignment.Id })" class="btn btn-primary">View Photos</a>
                 </div>
             </div>
         </div>
@@ -161,5 +161,5 @@
         // Initialize the filters on page load
         filterAssignments();
         searchAssignments();
-    </script>
+    </script>  
 }

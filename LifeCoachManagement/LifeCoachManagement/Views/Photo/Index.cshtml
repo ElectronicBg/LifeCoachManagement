@@ -1,0 +1,19 @@
+﻿@model List<Photo>
+
+<h2>Photos for Assignment</h2>
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        @foreach (var photo in Model)
+        {
+            <div class="col-md-4">
+                <img src="@Url.Content("~/Uploads/" + photo.FileName)" alt="Photo" class="img-thumbnail" />
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No photos found for this assignment.</p>
+}

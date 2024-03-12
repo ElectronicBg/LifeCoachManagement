@@ -8,11 +8,13 @@ namespace LifeCoachManagement.Models
         [Key]
         public int Id { get; set; }
 
-        [EnumDataType(typeof(Status))]
-        public Status Status { get; set; }
-
         [NotMapped]
         public IFormFile FileUpload { get; set; }
+        public string FileName { get; set; }
+        public DateTime CreationDate { get; set; }
+
+        [EnumDataType(typeof(Status))]
+        public Status Status { get; set; }
 
         [ForeignKey("Assignment")]
         public int AssignmentId { get; set; }
