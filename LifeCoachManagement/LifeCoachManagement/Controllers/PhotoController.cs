@@ -38,6 +38,7 @@ namespace LifeCoachManagement.Controllers
                 {
                     FileName = fileName,
                     FileUpload = viewModel.FileUpload,
+                    CreationDate=viewModel.SubmissionDate,
                     Status = viewModel.Status,
                     AssignmentId = viewModel.Id                 
                 };

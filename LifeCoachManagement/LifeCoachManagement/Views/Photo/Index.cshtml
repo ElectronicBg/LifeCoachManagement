@@ -9,6 +9,7 @@
         {
             <div class="col-md-4">
                 <img src="@Url.Content("~/Uploads/" + photo.FileName)" alt="Photo" class="img-thumbnail" />
+                <p>Creation Date: @photo.CreationDate.ToShortDateString()</p>
             </div>
         }
     </div>

@@ -7,6 +7,7 @@ namespace LifeCoachManagement.ViewModels
     {
         public int Id { get; set; }
         public IFormFile FileUpload { get; set; }
+        public DateTime SubmissionDate { get; set; }
         public Status Status { get; set; }
     }
 }

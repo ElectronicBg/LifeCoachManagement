@@ -62,21 +62,6 @@ namespace LifeCoachManagement.Controllers
 
             return View(assignments);
         }
-        [HttpGet]
-        public async Task<IActionResult> AssignmentPhotos(int id)
-        {
-            var assignment = await _context.Assignments.FindAsync(id);
-            if (assignment == null)
-            {
-                return NotFound();
-            }
-
-            var photos = await _context.Photos
-                .Where(p => p.AssignmentId == id)
-                .ToListAsync();
-
-            return View(photos);
-        }
 
         // GET: Assignment/Create
         public IActionResult Create()
@@ -220,6 +205,7 @@ namespace LifeCoachManagement.Controllers
             }
 
             assignment.Status = viewModel.Status;
+            assignment.SubmissionDate= viewModel.SubmissionDate;
 
             await _context.SaveChangesAsync();
 

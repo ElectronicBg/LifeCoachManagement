@@ -16,17 +16,10 @@
 
     <div class="form-group">
         <label asp-for="@Model.Assignment.AssignedUserId" class="form-label">Assigned User</label>
-        <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" class="form-control">
+        <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
             <option value="">No Assigned User</option>
         </select>
         <span asp-validation-for="@Model.Assignment.AssignedUserId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.CategoryId" class="form-label"></label>
-        <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
-            <option value="">Select a category</option>
-        </select>
-        <span asp-validation-for="@Model.Assignment.CategoryId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -38,6 +31,14 @@
             }
         </select>
         <span asp-validation-for="@Model.Assignment.Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Assignment.CategoryId" class="form-label"></label>
+        <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
+            <option value="">Select a category</option>
+        </select>
+        <span asp-validation-for="@Model.Assignment.CategoryId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -67,3 +68,28 @@
 </form>
 <a asp-action="Index" class="btn btn-secondary">Back to Assignments List</a>
 
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var previousStatus; // Declare previousStatus in the outer scope to make it accessible to both event handlers
+
+            $('#statusDropdown').change(function () {
+                // Capture the current status dropdown value
+                previousStatus = $(this).val();
+            });
+
+            $('#assignedUserDropdown').change(function () {
+                var statusDropdown = $('#statusDropdown');
+
+                if ($(this).val() !== "") {
+                    // If a user is selected, change the status to AssignedToCoach
+                    statusDropdown.val("@(LifeCoachManagement.Models.Status.AssignedToCoach)");
+                } else {
+                    // If no user is selected, reset the status dropdown to its previous value
+                    statusDropdown.val(previousStatus);
+                }
+            });
+        });
+    </script>
+
+}

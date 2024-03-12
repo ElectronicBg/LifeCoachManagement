@@ -5,7 +5,7 @@
 }
 
 <h2>Assignments List</h2>
-<div class="row">
+<div class="row mb-4">
     <div class="col-md-4">
         <div class="form-group">
             <label for="searchInput">Search:</label>
@@ -55,11 +55,11 @@
                     <p class="card-text">Assigned User: @(assignment.AssignedUser != null ? assignment.AssignedUser.UserName : "To be assigned")</p>
 
                     <form method="post" asp-action="ChangeStatus" asp-route-id="@assignment.Id">
-                        @if (assignment.Status == Status.ForReview && User.IsInRole(Roles.Admin.ToString()))
+                        @if (assignment.Status == Status.ForReview && User.IsInRole(Roles.Client.ToString()))
                         {
                             <button type="submit" name="newStatus" value="Completed" class="btn btn-success">Mark as Completed</button>
                         }
-                        @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Admin.ToString()))
+                        @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Client.ToString()))
                         {
                             <button type="submit" name="newStatus" value="Cancelled" class="btn btn-warning">Cancel</button>
                         }
