@@ -130,13 +130,13 @@ namespace LifeCoachManagement.Controllers
                 return NotFound();
             }
 
-            // Assign current user to the assignment if applicable
+          /*  // Assign current user to the assignment if applicable
             if (User.Identity.IsAuthenticated)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 editedAssignment.Assignment.CreatorId = currentUser.Id;
 
-            }
+            }*/
 
             if (ModelState.IsValid)
             {
@@ -153,6 +153,8 @@ namespace LifeCoachManagement.Controllers
 
                 // Set the AssignedUser property of the assignment
                 editedAssignment.Assignment.AssignedUser = assignedUser;
+
+                editedAssignment.Assignment.CreatorId=existingAssignment.CreatorId;
 
                 _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
 

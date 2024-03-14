@@ -61,6 +61,7 @@
                         }
                         @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Client.ToString()))
                         {
+                            <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
                             <button type="submit" name="newStatus" value="Cancelled" class="btn btn-warning">Cancel</button>
                         }
                     </form>

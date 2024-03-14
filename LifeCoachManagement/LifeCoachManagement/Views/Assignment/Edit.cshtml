@@ -14,25 +14,27 @@
         <span asp-validation-for="@Model.Assignment.Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.AssignedUserId" class="form-label">Assigned User</label>
-        <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
-            <option value="">No Assigned User</option>
-        </select>
-        <span asp-validation-for="@Model.Assignment.AssignedUserId" class="text-danger"></span>
-    </div>
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <div class="form-group">
+            <label asp-for="@Model.Assignment.AssignedUserId" class="form-label">Assigned User</label>
+            <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
+                <option value="">No Assigned User</option>
+            </select>
+            <span asp-validation-for="@Model.Assignment.AssignedUserId" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.Status" class="form-label"></label>
-        <select asp-for="@Model.Assignment.Status" id="statusDropdown" class="form-control">
-            @foreach (var status in Enum.GetValues(typeof(LifeCoachManagement.Models.Status)))
-            {
-                <option value="@status">@status</option>
-            }
-        </select>
-        <span asp-validation-for="@Model.Assignment.Status" class="text-danger"></span>
-    </div>
-
+        <div class="form-group">
+            <label asp-for="@Model.Assignment.Status" class="form-label"></label>
+            <select asp-for="@Model.Assignment.Status" id="statusDropdown" class="form-control">
+                @foreach (var status in Enum.GetValues(typeof(LifeCoachManagement.Models.Status)))
+                {
+                    <option value="@status">@status</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Assignment.Status" class="text-danger"></span>
+        </div>
+    }
     <div class="form-group">
         <label asp-for="@Model.Assignment.CategoryId" class="form-label"></label>
         <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">

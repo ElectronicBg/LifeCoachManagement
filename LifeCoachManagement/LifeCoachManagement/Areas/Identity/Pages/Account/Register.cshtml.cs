@@ -93,6 +93,7 @@ namespace LifeCoachManagement.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            public string Name { get; set; } = string.Empty;
             public string FirstName { get; set; } = string.Empty;
             public string LastName { get; set; } = string.Empty;
 
@@ -112,6 +113,9 @@ namespace LifeCoachManagement.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName=Input.LastName;
+                user.Name = Input.Name;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

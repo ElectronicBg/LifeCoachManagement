@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LifeCoachManagement.Models.Category>
+﻿@model IEnumerable<LifeCoachManagement.ViewModels.CategoryViewModel>
 @{
     ViewData["Title"] = "Categories List";
 }
@@ -18,9 +18,16 @@
             <tr>
                 <td>@category.Id</td>
                 <td>@category.Name</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                <td>                   
+                    @if (!category.HasAssignments)
+                    {
+                        <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                    }
+                    else
+                    {
+                        <p>No Actions Allowed!</p>
+                    }
                 </td>
             </tr>
         }
