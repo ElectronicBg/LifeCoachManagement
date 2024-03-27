@@ -5,6 +5,18 @@
       "PackagePath": "staticwebassets\\LifeCoachManagement.bundle.scp.css"
     },
     {
+      "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Images\\LifeCoachManagementBackground.jpg",
+      "PackagePath": "staticwebassets\\Images\\LifeCoachManagementBackground.jpg"
+    },
+    {
+      "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Images\\LifeCoachManagementBanner.jpg",
+      "PackagePath": "staticwebassets\\Images\\LifeCoachManagementBanner.jpg"
+    },
+    {
+      "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Images\\LifeCoachManagementLogo.png",
+      "PackagePath": "staticwebassets\\Images\\LifeCoachManagementLogo.png"
+    },
+    {
       "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Uploads\\WIN_20221214_17_18_55_Pro.jpg",
       "PackagePath": "staticwebassets\\Uploads\\WIN_20221214_17_18_55_Pro.jpg"
     },

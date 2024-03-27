@@ -3,89 +3,89 @@
 @{
     ViewData["Title"] = "Assignments List";
 }
-
-<h2>Assignments List</h2>
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="searchInput">Search:</label>
-            <input type="text" class="form-control" id="searchInput" placeholder="Search by name or description">
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="categoryFilter">Category:</label>
-            <select class="form-control" id="categoryFilter">
-                <option value="">All Categories</option>
-                @foreach (var category in ViewBag.Categories)
-                {
-                    <option value="@category.Name">@category.Name</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="statusFilter">Status:</label>
-            <select class="form-control" id="statusFilter">
-                <option value="">All Statuses</option>
-                @foreach (var status in ViewBag.Statuses)
-                {
-                    <option value="@status">@status</option>
-                }
-            </select>
-        </div>
-    </div>
-</div>
-
-<div class="row" id="assignmentsList">
-    @foreach (var assignment in Model)
-    {
-        <div class="col-md-4 assignment" data-category="@assignment.Category.Name" data-status="@assignment.Status">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title name">@assignment.Name</h5>
-                    <p class="card-text">Category:@assignment.Category.Name</p>
-                    <p class="card-text">Status:@assignment.Status</p>
-                    <p class="card-text card-description">Description: @assignment.Description</p>
-                    <p class="card-text">Desired Results: @assignment.DesiredResults</p>
-                    <p class="card-text">Submission Date: @assignment.SubmissionDate.ToShortDateString()</p>
-                    <p class="card-text">Deadline: @assignment.Deadline.ToShortDateString()</p>
-                    <p class="card-text">Budget: @assignment.Budget</p>
-                    <p class="card-text">Assigned User: @(assignment.AssignedUser != null ? assignment.AssignedUser.UserName : "To be assigned")</p>
-
-                    <form method="post" asp-action="ChangeStatus" asp-route-id="@assignment.Id">
-                        @if (assignment.Status == Status.ForReview && User.IsInRole(Roles.Client.ToString()))
-                        {
-                            <button type="submit" name="newStatus" value="Completed" class="btn btn-success">Mark as Completed</button>
-                        }
-                        @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Client.ToString()))
-                        {
-                            <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
-                            <button type="submit" name="newStatus" value="Cancelled" class="btn btn-warning">Cancel</button>
-                        }
-                    </form>
-
-                    @if (assignment.Status == Status.AssignedToCoach && User.IsInRole(Roles.Coach.ToString()))
-                    {
-                        <a asp-action="CoachEdit" asp-route-id="@assignment.Id" class="btn btn-primary">ChangeStatus</a>
-                    }
-                    @if (User.IsInRole(Roles.Admin.ToString()))
-                    {
-                        <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
-                        <form asp-action="Delete" asp-route-id="@assignment.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this assignment?');">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    }
-                    <a href="@Url.Action("Index", "Photo", new { assignmentId = assignment.Id })" class="btn btn-primary">View Photos</a>
-                </div>
+<div class="container">
+    <h2>Assignments List</h2>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="searchInput">Search:</label>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name or description">
             </div>
         </div>
-    }
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="categoryFilter">Category:</label>
+                <select class="form-control" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Name">@category.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="statusFilter">Status:</label>
+                <select class="form-control" id="statusFilter">
+                    <option value="">All Statuses</option>
+                    @foreach (var status in ViewBag.Statuses)
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="assignmentsList">
+        @foreach (var assignment in Model)
+        {
+            <div class="col-md-4 assignment" data-category="@assignment.Category.Name" data-status="@assignment.Status">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title name">@assignment.Name</h5>
+                        <p class="card-text">Category:@assignment.Category.Name</p>
+                        <p class="card-text">Status:@assignment.Status</p>
+                        <p class="card-text card-description">Description: @assignment.Description</p>
+                        <p class="card-text">Desired Results: @assignment.DesiredResults</p>
+                        <p class="card-text">Submission Date: @assignment.SubmissionDate.ToShortDateString()</p>
+                        <p class="card-text">Deadline: @assignment.Deadline.ToShortDateString()</p>
+                        <p class="card-text">Budget: @assignment.Budget</p>
+                        <p class="card-text">Assigned User: @(assignment.AssignedUser != null ? assignment.AssignedUser.UserName : "To be assigned")</p>
+
+                        <form method="post" asp-action="ChangeStatus" asp-route-id="@assignment.Id">
+                            @if (assignment.Status == Status.ForReview && User.IsInRole(Roles.Client.ToString()))
+                            {
+                                <button type="submit" name="newStatus" value="Completed" class="btn btn-success">Mark as Completed</button>
+                            }
+                            @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Client.ToString()))
+                            {
+                                <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
+                                <button type="submit" name="newStatus" value="Cancelled" class="btn btn-warning">Cancel</button>
+                            }
+                        </form>
+
+                        @if (assignment.Status == Status.AssignedToCoach && User.IsInRole(Roles.Coach.ToString()))
+                        {
+                            <a asp-action="CoachEdit" asp-route-id="@assignment.Id" class="btn btn-primary">ChangeStatus</a>
+                        }
+                        @if (User.IsInRole(Roles.Admin.ToString()))
+                        {
+                            <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary">Edit</a>
+                            <form asp-action="Delete" asp-route-id="@assignment.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this assignment?');">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        }
+                        <a href="@Url.Action("Index", "Photo", new { assignmentId = assignment.Id })" class="btn btn-primary">View Photos</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <a asp-action="Create" class="btn btn-success">Add New Assignment</a>
 </div>
-
-<a asp-action="Create" class="btn btn-success">Add New Assignment</a>
-
 @section scripts {
     <script>
         function filterAssignments() {
@@ -162,5 +162,5 @@
         // Initialize the filters on page load
         filterAssignments();
         searchAssignments();
-    </script>  
+    </script>
 }
