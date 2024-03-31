@@ -1,76 +1,83 @@
 ﻿@using LifeCoachManagement.Data
+@using LifeCoachManagement.Helpers
 @model LifeCoachManagement.ViewModels.EditAssignmentViewModel
 @{
     ViewData["Title"] = "Edit Assignment";
 }
 
-<h2>Edit Assignment</h2>
-<form method="post" asp-action="Edit" enctype="multipart/form-data">
-    <input type="hidden" asp-for="@Model.Assignment.Id" />
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;">
+    <div class=" d-flex flex-column h-100 justify-content-center  align-items-center">
+        <div class="col-md-5 p-4 m-3 rounded" style="background-color: rgba(0, 0, 0, 0.5);">
+            <h1 style="color:rgb(160, 208, 204);">Редактирай Задачата</h1>
+            <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.Assignment.Id" />
 
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.Name" class="form-label"></label>
-        <input asp-for="@Model.Assignment.Name" class="form-control" />
-        <span asp-validation-for="@Model.Assignment.Name" class="text-danger"></span>
-    </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Assignment.Name" class="form-label text-white"></label>
+                    <input asp-for="@Model.Assignment.Name" class="form-control" />
+                    <span asp-validation-for="@Model.Assignment.Name" class="text-danger"></span>
+                </div>
 
-    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-    {
-        <div class="form-group">
-            <label asp-for="@Model.Assignment.AssignedUserId" class="form-label">Assigned User</label>
-            <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
-                <option value="">No Assigned User</option>
-            </select>
-            <span asp-validation-for="@Model.Assignment.AssignedUserId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Assignment.Status" class="form-label"></label>
-            <select asp-for="@Model.Assignment.Status" id="statusDropdown" class="form-control">
-                @foreach (var status in Enum.GetValues(typeof(LifeCoachManagement.Models.Status)))
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
-                    <option value="@status">@status</option>
+                    <div class="form-group">
+                        <label asp-for="@Model.Assignment.AssignedUserId" class="form-label text-white">Assigned User</label>
+                        <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
+                            <option value="">No Assigned User</option>
+                        </select>
+                        <span asp-validation-for="@Model.Assignment.AssignedUserId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Assignment.Status" class="form-label text-white"></label>
+                        <select asp-for="@Model.Assignment.Status" id="statusDropdown" class="form-control">
+                            @foreach (Status status in Enum.GetValues(typeof(Status)))
+                            {
+                                <option value="@status">@EnumHelper.GetDisplayName(status)</option>
+                            }
+                        </select>
+                        <span asp-validation-for="@Model.Assignment.Status" class="text-danger"></span>
+                    </div>
                 }
-            </select>
-            <span asp-validation-for="@Model.Assignment.Status" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.Assignment.CategoryId" class="form-label text-white"></label>
+                    <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
+                        <option value="">Select a category</option>
+                    </select>
+                    <span asp-validation-for="@Model.Assignment.CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Assignment.Description" class="form-label text-white"></label>
+                    <textarea asp-for="@Model.Assignment.Description" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Assignment.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Assignment.DesiredResults" class="form-label text-white"></label>
+                    <textarea asp-for="@Model.Assignment.DesiredResults" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.Assignment.DesiredResults" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Assignment.Deadline" class="form-label text-white"></label>
+                    <input asp-for="@Model.Assignment.Deadline" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="@Model.Assignment.Deadline" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Assignment.Budget" class="form-label text-white"></label>
+                    <input asp-for="@Model.Assignment.Budget" class="form-control" value="@Model.Assignment.Budget.ToString("0")" />
+                    <span asp-validation-for="@Model.Assignment.Budget" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3 border-0" style="background-color:rgb(160, 208, 204);">Обнови Задачата</button>
+            </form>
+            <a asp-action="Index" class="btn btn-secondary mt-3">Върни се към списъка със Задачи</a>
         </div>
-    }
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.CategoryId" class="form-label"></label>
-        <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
-            <option value="">Select a category</option>
-        </select>
-        <span asp-validation-for="@Model.Assignment.CategoryId" class="text-danger"></span>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.Description" class="form-label"></label>
-        <textarea asp-for="@Model.Assignment.Description" class="form-control"></textarea>
-        <span asp-validation-for="@Model.Assignment.Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.DesiredResults" class="form-label"></label>
-        <textarea asp-for="@Model.Assignment.DesiredResults" class="form-control"></textarea>
-        <span asp-validation-for="@Model.Assignment.DesiredResults" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.Deadline" class="form-label"></label>
-        <input asp-for="@Model.Assignment.Deadline" type="datetime-local" class="form-control" />
-        <span asp-validation-for="@Model.Assignment.Deadline" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="@Model.Assignment.Budget" class="form-label"></label>
-        <input asp-for="@Model.Assignment.Budget" class="form-control" />
-        <span asp-validation-for="@Model.Assignment.Budget" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Update Assignment</button>
-</form>
-<a asp-action="Index" class="btn btn-secondary">Back to Assignments List</a>
-
-@section Scripts {
+@section scripts {
     <script>
         $(document).ready(function () {
             var previousStatus; // Declare previousStatus in the outer scope to make it accessible to both event handlers
@@ -93,5 +100,6 @@
             });
         });
     </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 }

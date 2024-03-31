@@ -3,50 +3,59 @@
     ViewData["Title"] = "Add Assignment";
 }
 
-<h2>Add Assignment</h2>
-<form method="post" asp-action="Create" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;">
+    <div class=" d-flex flex-column h-100 justify-content-center  align-items-center">
+        <div class="col-md-5 p-4 m-3 rounded" style="background-color: rgba(0, 0, 0, 0.5);">
+            <h1 style="color:rgb(160, 208, 204);">Създай Задача</h1>
+            <form method="post" asp-action="Create" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label text-white"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="form-label text-white"></label>
+                    <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
+                        <option value="">Select a category</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="form-label text-white"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DesiredResults" class="form-label text-white"></label>
+                    <textarea asp-for="DesiredResults" class="form-control"></textarea>
+                    <span asp-validation-for="DesiredResults" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Deadline" class="form-label text-white"></label>
+                    <input asp-for="Deadline" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="Deadline" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="Budget" class="form-label text-white"></label>
+                    <input asp-for="Budget" class="form-control" />
+                    <span asp-validation-for="Budget" class="text-danger"></span>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary mt-3 border-0" style="background-color:rgb(160, 208, 204);">Добави Задача</button>
+            </form>
+
+            <a asp-action="Index" class="btn btn-secondary mt-3">Върни се към списъка със Задачи</a>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="CategoryId" class="form-label"></label>
-        <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
-            <option value="">Select a category</option>
-        </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="DesiredResults" class="form-label"></label>
-        <textarea asp-for="DesiredResults" class="form-control"></textarea>
-        <span asp-validation-for="DesiredResults" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Deadline" class="form-label"></label>
-        <input asp-for="Deadline" type="datetime-local" class="form-control" />
-        <span asp-validation-for="Deadline" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="Budget" class="form-label"></label>
-        <input asp-for="Budget" class="form-control" />
-        <span asp-validation-for="Budget" class="text-danger"></span>
-    </div>
-
-
-
-    <button type="submit" class="btn btn-primary">Add Assignment</button>
-</form>
-
-<a asp-action="Index" class="btn btn-secondary">Back to Assignments List</a>
+</div>
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}

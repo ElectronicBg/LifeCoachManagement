@@ -75,18 +75,18 @@ namespace LifeCoachManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Assignment assignment)
         {
+            // Set status to pending
+            assignment.Status = Status.Pending;
+
+            // Assign current user to the assignment if applicable
+            if (User.Identity.IsAuthenticated)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                assignment.CreatorId = currentUser.Id;
+            }
+
             if (ModelState.IsValid)
             {
-                // Set status to pending
-                assignment.Status = Status.Pending;
-
-                // Assign current user to the assignment if applicable
-                if (User.Identity.IsAuthenticated)
-                {
-                    var currentUser = await _userManager.GetUserAsync(User);
-                    assignment.CreatorId = currentUser.Id;
-                }
-
                 _context.Add(assignment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,6 +96,7 @@ namespace LifeCoachManagement.Controllers
         }
 
         // Update Assignment
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var assignment = _context.Assignments
@@ -117,6 +118,7 @@ namespace LifeCoachManagement.Controllers
             };
 
             ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Statuses = Enum.GetValues(typeof(Status)).Cast<Status>().ToList();
 
             return View(model);
         }
@@ -129,41 +131,33 @@ namespace LifeCoachManagement.Controllers
             {
                 return NotFound();
             }
+            var existingAssignment = _context.Assignments
+                  .Include(a => a.Category)
+                  .FirstOrDefault(a => a.Id == id);
 
-          /*  // Assign current user to the assignment if applicable
-            if (User.Identity.IsAuthenticated)
+            if (existingAssignment == null)
             {
-                var currentUser = await _userManager.GetUserAsync(User);
-                editedAssignment.Assignment.CreatorId = currentUser.Id;
+                return NotFound();
+            }
 
-            }*/
+            var assignedUser = await _userManager.FindByIdAsync(editedAssignment.Assignment.AssignedUserId);
+
+            // Set the AssignedUser property of the assignment
+            editedAssignment.Assignment.AssignedUser = assignedUser;
+
+            editedAssignment.Assignment.CreatorId = existingAssignment.CreatorId;
+
+            _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
 
             if (ModelState.IsValid)
-            {
-                var existingAssignment = _context.Assignments
-                    .Include(a => a.Category)
-                    .FirstOrDefault(a => a.Id == id);
-
-                if (existingAssignment == null)
-                {
-                    return NotFound();
-                }
-
-                var assignedUser = await _userManager.FindByIdAsync(editedAssignment.Assignment.AssignedUserId);
-
-                // Set the AssignedUser property of the assignment
-                editedAssignment.Assignment.AssignedUser = assignedUser;
-
-                editedAssignment.Assignment.CreatorId=existingAssignment.CreatorId;
-
-                _context.Entry(existingAssignment).CurrentValues.SetValues(editedAssignment.Assignment);
-
+            {            
                 _context.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
 
             ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Statuses = Enum.GetValues(typeof(Status)).Cast<Status>().ToList();
 
             return View("Index");
         }

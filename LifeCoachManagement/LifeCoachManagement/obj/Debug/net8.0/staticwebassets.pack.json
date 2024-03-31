@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\Images\\LifeCoachManagementBackground.jpg"
     },
     {
+      "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Images\\LifeCoachManagementBackground2.jpg",
+      "PackagePath": "staticwebassets\\Images\\LifeCoachManagementBackground2.jpg"
+    },
+    {
       "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Images\\LifeCoachManagementBanner.jpg",
       "PackagePath": "staticwebassets\\Images\\LifeCoachManagementBanner.jpg"
     },
@@ -27,6 +31,10 @@
     {
       "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Uploads\\WIN_20230929_09_42_46_Pro.jpg",
       "PackagePath": "staticwebassets\\Uploads\\WIN_20230929_09_42_46_Pro.jpg"
+    },
+    {
+      "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\Uploads\\_8cb3c3e5-69ac-4641-9411-5ad0c7366e3a.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\_8cb3c3e5-69ac-4641-9411-5ad0c7366e3a.jpg"
     },
     {
       "Id": "D:\\LifeCoachManagement\\LifeCoachManagement\\LifeCoachManagement\\wwwroot\\css\\site.css",

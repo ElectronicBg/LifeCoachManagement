@@ -3,35 +3,42 @@
     ViewData["Title"] = "Categories List";
 }
 
-<h2>Categories List</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var category in Model)
-        {
-            <tr>
-                <td>@category.Id</td>
-                <td>@category.Name</td>
-                <td>                   
-                    @if (!category.HasAssignments)
-                    {
-                        <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
-                    }
-                    else
-                    {
-                        <p>No Actions Allowed!</p>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-action="Create" class="btn btn-success">Add New Category</a>
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;min-height:90vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="d-flex flex-column justify-content-between ">
+                    <h1 style="color:rgb(160, 208, 204);">Списък с Категории</h1>
+                    <table class="table rounded-2 text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+                        <thead>
+                            <tr>
+                                <th>Име</th>
+                                <th>Опции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Model)
+                            {
+                                <tr>
+                                    <td>@category.Name</td>
+                                    <td>
+                                        @if (!category.HasAssignments)
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-primary border-0" style="background-color:rgb(160, 208, 204);">Редактирай</a>
+                                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger text-white border-0" style="background-color:rgb(208, 160, 164);">Изтрий</a>
+                                        }
+                                        else
+                                        {
+                                            <p>Няма позволени Опции!</p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <a asp-action="Create" class="btn btn-success border-0" style="background-color:rgb(188, 208, 160);">Добави Категория</a>
+            </div>
+        </div>
+    </div>
+</div>

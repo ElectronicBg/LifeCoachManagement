@@ -1,45 +1,43 @@
 ﻿@model List<ApplicationUser>
 
-<h1>User List</h1>
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;min-height:90vh;">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12">
+                <h1 style="color:rgb(160, 208, 204);">Списъск на Потребителите</h1>
+                <div class="table-responsive">
+                    <table class="table rounded-2 text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+                        <thead>
+                            <tr>
+                                <th>Име</th>
+                                <th>Имейл</th>
+                                <th>Роля</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model)
+                            {
+                                <tr>
+                                    <td>@user.Name</td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        <form asp-controller="Account" asp-action="ChangeRole" method="post">
+                                            <input type="hidden" name="UserId" value="@user.Id" />
+                                            @{
+                                                var selectedRole = ViewBag.UserRoles[user].Count > 0 ? ViewBag.UserRoles[user][0] : null;
+                                            }
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Change Role</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.Id</td>
-                    <td>@user.Name</td>
-                    <td>@user.Email</td>
-                    <td>@string.Join(", ", ViewBag.UserRoles[user])</td>
-                    <td>
-                        <form asp-controller="Account" asp-action="ChangeRole" method="post">
-                            <input type="hidden" name="UserId" value="@user.Id" />
-                            @{
-                                var selectedRole = ViewBag.UserRoles[user].Count > 0 ? ViewBag.UserRoles[user][0] : null;
+                                            @Html.DropDownList("RoleName", new SelectList(ViewBag.Roles, selectedRole), new { @class = "form-control" })
+
+                                            <button type="submit" class="btn btn-primary mt-3 border-0" style="background-color:rgb(160, 208, 204);">Промени Ролята</button>
+                                        </form>
+                                    </td>
+                                </tr>
                             }
-
-                            @Html.DropDownList("RoleName", new SelectList(ViewBag.Roles, selectedRole), new { @class = "form-control" })
-
-                            <button type="submit" class="btn btn-primary">Change Role</button>
-                        </form>
-                    </td>
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-

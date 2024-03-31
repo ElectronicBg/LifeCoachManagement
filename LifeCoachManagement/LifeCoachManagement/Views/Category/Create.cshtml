@@ -3,15 +3,21 @@
     ViewData["Title"] = "Add Category";
 }
 
-<h2>Add Category</h2>
-<form method="post" asp-action="Create">
-    <div class="form-group">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;min-height:90vh;">
+    <div class=" d-flex flex-column h-100 justify-content-center  align-items-center">
+        <div class="col-md-5 p-4 m-3 rounded" style="background-color: rgba(0, 0, 0, 0.5);">
+            <h1 style="color:rgb(160, 208, 204);">Създай Категория</h1>
+            <form method="post" asp-action="Create">
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label text-white"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3 border-0" style="background-color:rgb(160, 208, 204);">Добави Категория</button>
+            </form>
+
+            <a asp-action="Index" class="btn btn-secondary mt-3">Върни се към списъка с Категории</a>
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-primary">Add Category</button>
-</form>
-
-<a asp-action="Index" class="btn btn-secondary">Back to Categories List</a>
+</div>

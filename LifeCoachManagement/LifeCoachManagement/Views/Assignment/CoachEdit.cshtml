@@ -3,31 +3,36 @@
     ViewData["Title"] = "ChangeStatus";
 }
 
-<h2>Edit Assignment</h2>
-<form method="post" asp-action="CoachEdit" enctype="multipart/form-data">
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;">
+    <div class=" d-flex flex-column  justify-content-center  align-items-center" style="min-height:90vh;">
+        <div class="col-md-5 p-4 m-3 rounded" style="background-color: rgba(0, 0, 0, 0.5);">
+            <form method="post" asp-action="CoachEdit" enctype="multipart/form-data">
 
-    <input type="hidden" asp-for="@Model.Id" />
-    <input type="hidden" asp-for="@Model.SubmissionDate" value="@DateTime.Now" />
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.SubmissionDate" value="@DateTime.Now" />
 
-    <div class="form-group">
-        <label asp-for="@Model.Status" class="form-label"></label>
-        <select asp-for="@Model.Status" id="statusDropdown" class="form-control">
-            <option value="@Status.AssignedToCoach">@Status.AssignedToCoach</option>
-            <option value="@Status.ForReview">@Status.ForReview</option>
-        </select>
-        <span asp-validation-for="@Model.Status" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.Status" class="form-label text-white"></label>
+                    <select asp-for="@Model.Status" id="statusDropdown" class="form-control">
+                        <option value="@Status.AssignedToCoach">@Status.AssignedToCoach</option>
+                        <option value="@Status.ForReview">@Status.ForReview</option>
+                    </select>
+                    <span asp-validation-for="@Model.Status" class="text-danger"></span>
+                </div>
+
+                <div id="fileUploadContainer" class="form-group" style="display: none;">
+                    <label asp-for="@Model.FileUpload" class="form-label text-white"></label>
+                    <input asp-for="@Model.FileUpload" id="photoInput" class="form-control" />
+                    <span asp-validation-for="@Model.FileUpload" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3 border-0" style="background-color:rgb(160, 208, 204);">Обнови Задачата</button>
+            </form>
+
+            <a asp-action="Index" class="btn btn-secondary mt-3">Върни се към списъка със Задачи</a>
+        </div>
     </div>
-
-    <div id="fileUploadContainer" class="form-group" style="display: none;">
-        <label asp-for="@Model.FileUpload" class="form-label"></label>
-        <input asp-for="@Model.FileUpload" id="photoInput" class="form-control" />
-        <span asp-validation-for="@Model.FileUpload" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Update Assignment</button>
-</form>
-
-<a asp-action="Index" class="btn btn-secondary">Back to Assignments List</a>
+</div>
 @section scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>

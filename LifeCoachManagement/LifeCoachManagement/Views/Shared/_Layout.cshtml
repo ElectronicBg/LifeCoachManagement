@@ -23,19 +23,30 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">    
+                <div class="navbar-collapse collapsed-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Assignment" asp-action="Index">Задачи</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Категории</a>
+                            </li>                       
+                        }
+                    </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-        <main role="main">
-            @RenderBody()
-        </main>
+    <main role="main">
+        @RenderBody()
+    </main>
 
-    <footer class="footer text-muted" style="background-color:rgb(38, 67, 67)">
+    <footer class="footer text-muted" style="background-color:rgb(38, 67, 67);bottom:initial">
         <div class="container d-flex flex-column justify-content-center align-items-center" style="color:rgb(160, 208, 204)">
-            <p class="fst-italic fs-3 mb-0 pb-0">Embrace your best self</p>
+            <p class="fst-italic fs-3 mb-0 pb-0">Бъдете най-добрата си версия</p>
             <strong>&copy; 2024 - Открий се </strong>
         </div>
     </footer>

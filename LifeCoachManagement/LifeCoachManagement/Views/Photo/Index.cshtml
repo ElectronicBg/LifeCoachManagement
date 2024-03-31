@@ -1,20 +1,30 @@
 ﻿@model List<Photo>
 
-<h2>Photos for Assignment</h2>
+<div style="background-image:url('/Images/LifeCoachManagementBackground2.jpg'); background-size: cover; background-position:center;min-height:90vh;">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center ">
+                    <h1 style="color:rgb(160, 208, 204);">@ViewData["Title"]</h1>
+                    @if (Model.Count > 0)
+                    {
+                        <div class="row gap-2">
+                            @foreach (var photo in Model)
+                            {
+                                <div class="col-md-4 p-3 rounded-2" style="background-color: rgba(0, 0, 0, 0.5);">
+                                    <img src="@Url.Content("~/Uploads/" + photo.FileName)" alt="Photo" class="img-thumbnail border-0 p-2" />
 
-@if (Model.Count > 0)
-{
-    <div class="row">
-        @foreach (var photo in Model)
-        {
-            <div class="col-md-4">
-                <img src="@Url.Content("~/Uploads/" + photo.FileName)" alt="Photo" class="img-thumbnail" />
-                <p>Creation Date: @photo.CreationDate.ToShortDateString()</p>
+                                    <p class="text-white">Дата на Предаване: @photo.CreationDate.ToShortDateString()</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p>No photos found for this assignment.</p>
+                    }
+                </div>
             </div>
-        }
+        </div>
     </div>
-}
-else
-{
-    <p>No photos found for this assignment.</p>
-}
+</div>

@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LifeCoachManagement")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc05f8124e7ec607eddeb4567a5fcf71e3fa89df")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5d1a51f236f8c95a5b5be0998905852c9e68c49")]
 [assembly: System.Reflection.AssemblyProductAttribute("LifeCoachManagement")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LifeCoachManagement")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

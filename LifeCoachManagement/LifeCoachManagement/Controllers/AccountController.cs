@@ -92,39 +92,5 @@ public class AccountController : Controller
             }
         }
         return View(model);
-    }
-
-    // Delete action - display confirmation page for deleting user
-    [HttpGet]
-    public async Task<IActionResult> Delete(string id)
-    {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-        return View(user);
-    }
-
-    // Delete action - handle POST request for deleting user
-    [HttpPost, ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(string id)
-    {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        var result = await _userManager.DeleteAsync(user);
-        if (result.Succeeded)
-        {
-            return RedirectToAction(nameof(Index));
-        }
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(string.Empty, error.Description);
-        }
-        return View(user);
-    }
+    }   
 }

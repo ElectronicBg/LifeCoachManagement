@@ -4,39 +4,35 @@
 @{
     ViewData["Title"] = "Log in";
 }
-
-<div class="container me-0">
-    <div class="row" style="height:80vh">
-        <div class="col-md-4">
-            <h1>@ViewData["Title"]</h1>
+<div class="text-center" style="height:90vh;background-image:url('/Images/LifeCoachManagementBanner.jpg'); background-size: cover; background-position:center;">
+    <div class="col-6 d-flex flex-column h-100 justify-content-center  align-items-center">
+        <div class="col-md-5 p-4 rounded" style="background-color: rgba(0, 0, 0, 0.5);">
+            <h1 style="color:rgb(160, 208, 204);">Добре дошли!</h1>
             <section>
                 <form id="account" method="post">
-                    <hr />
+                    <hr style="color:rgb(160, 208, 204); height:2px;" />
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        <label asp-for="Input.Email" class="form-label">Email</label>
+                        <label asp-for="Input.Email" class="form-label">Имейл</label>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.Password" class="form-label">Password</label>
+                        <label asp-for="Input.Password" class="form-label">Парола</label>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <div class="checkbox mb-3">
+                    <div class="checkbox mb-3" style="color:rgb(160, 208, 204);">
                         <label asp-for="Input.RememberMe" class="form-label">
                             <input class="form-check-input" asp-for="Input.RememberMe" />
                             @Html.DisplayNameFor(m => m.Input.RememberMe)
                         </label>
                     </div>
                     <div>
-                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary border-0" style="background-color:rgb(160, 208, 204);">Влез</button>
                     </div>
                 </form>
             </section>
-        </div>
-        <div class="col-8" style="background-image: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)), url('/Images/LifeCoachManagementBanner.jpg'); background-size: cover; background-position:center;">
-
         </div>
     </div>
 </div>
