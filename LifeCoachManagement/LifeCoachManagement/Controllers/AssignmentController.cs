@@ -159,7 +159,7 @@ namespace LifeCoachManagement.Controllers
             ViewBag.Categories = _context.Categories.ToList();
             ViewBag.Statuses = Enum.GetValues(typeof(Status)).Cast<Status>().ToList();
 
-            return View("Index");
+            return View("Edit",editedAssignment);
         }
         [HttpGet]
         public async Task<IActionResult> CoachEdit(int? id)

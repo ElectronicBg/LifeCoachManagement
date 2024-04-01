@@ -68,7 +68,7 @@
                                             }
                                             @if (assignment.Status == Status.Pending && User.IsInRole(Roles.Client.ToString()))
                                             {
-                                                <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary" style="background-color:rgb(160, 208, 204);">Редактирай</a>
+                                                <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary border-0" style="background-color:rgb(160, 208, 204);">Редактирай</a>
                                                 <button type="submit" name="newStatus" value="Cancelled" class="btn btn-warning border-0 text-white" style="background-color:rgb(208, 204, 160);">Откажи</button>
                                             }
                                         </form>

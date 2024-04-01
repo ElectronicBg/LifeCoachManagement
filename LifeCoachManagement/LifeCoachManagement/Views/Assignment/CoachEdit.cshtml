@@ -1,4 +1,5 @@
-﻿@model LifeCoachManagement.ViewModels.CoachEditAssignmentViewModel
+﻿@using LifeCoachManagement.Helpers
+@model LifeCoachManagement.ViewModels.CoachEditAssignmentViewModel
 @{
     ViewData["Title"] = "ChangeStatus";
 }
@@ -12,10 +13,10 @@
                 <input type="hidden" asp-for="@Model.SubmissionDate" value="@DateTime.Now" />
 
                 <div class="form-group">
-                    <label asp-for="@Model.Status" class="form-label text-white"></label>
+                    <label asp-for="@Model.Status" class="form-label text-white">Статус</label>
                     <select asp-for="@Model.Status" id="statusDropdown" class="form-control">
-                        <option value="@Status.AssignedToCoach">@Status.AssignedToCoach</option>
-                        <option value="@Status.ForReview">@Status.ForReview</option>
+                        <option value="@Status.AssignedToCoach">@EnumHelper.GetDisplayName(@Status.AssignedToCoach)</option>
+                        <option value="@Status.ForReview">@EnumHelper.GetDisplayName(@Status.ForReview)</option>
                     </select>
                     <span asp-validation-for="@Model.Status" class="text-danger"></span>
                 </div>
@@ -35,6 +36,8 @@
 </div>
 @section scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script>
         // AJAX call when the status is changed
         $('#statusDropdown').change(function () {
@@ -44,6 +47,7 @@
         $("form").submit(function (e) {
             var fileInput = $('input[type=file]')[0];
             var file = fileInput.files[0];
+            $('#fileUploadContainer').show();
             if (file) { // Check if a file was selected
                 e.preventDefault()
 

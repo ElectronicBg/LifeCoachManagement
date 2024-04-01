@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label asp-for="@Model.Assignment.AssignedUserId" class="form-label text-white">Assigned User</label>
                         <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
-                            <option value="">No Assigned User</option>
+                            <option value="">Няма назначен Треньор</option>
                         </select>
                         <span asp-validation-for="@Model.Assignment.AssignedUserId" class="text-danger"></span>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <label asp-for="@Model.Assignment.CategoryId" class="form-label text-white"></label>
                     <select asp-for="@Model.Assignment.CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control">
-                        <option value="">Select a category</option>
+                        <option value="">Избери Категория</option>
                     </select>
                     <span asp-validation-for="@Model.Assignment.CategoryId" class="text-danger"></span>
                 </div>
