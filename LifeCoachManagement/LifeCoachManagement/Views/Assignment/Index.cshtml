@@ -11,7 +11,10 @@
                 <div class="d-flex justify-content-between align-items-center ">
                     <h1 style="color:rgb(160, 208, 204);">Списъск на Задачите</h1>
                     <div>
-                        <a asp-action="Create" class="btn btn-success border-0" style="background-color:rgb(188, 208, 160);">Добави Задача</a>
+                        @if (!User.IsInRole(Roles.Coach.ToString()))
+                        {
+                            <a asp-action="Create" class="btn btn-success border-0" style="background-color:rgb(188, 208, 160);">Добави Задача</a>
+                        }
                     </div>
                 </div>
                 <div class="row mb-4">
@@ -80,7 +83,7 @@
                                         @if (User.IsInRole(Roles.Admin.ToString()))
                                         {
                                             <a asp-action="Edit" asp-route-id="@assignment.Id" class="btn btn-primary me-3 border-0" style="background-color:rgb(160, 208, 204);">Редактирай</a>
-                                            <form asp-action="Delete" asp-route-id="@assignment.Id" method="post"  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете тази задача?');">
+                                            <form asp-action="Delete" asp-route-id="@assignment.Id" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете тази задача?');">
                                                 <button type="submit" class="btn btn-danger border-0" style="background-color:rgb(208, 160, 164);">Изтрий</button>
                                             </form>
                                         }

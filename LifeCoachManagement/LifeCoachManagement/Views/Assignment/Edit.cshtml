@@ -21,7 +21,7 @@
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
                     <div class="form-group">
-                        <label asp-for="@Model.Assignment.AssignedUserId" class="form-label text-white">Assigned User</label>
+                        <label asp-for="@Model.Assignment.AssignedUserId" class="form-label text-white">Треньор</label>
                         <select asp-for="@Model.Assignment.AssignedUserId" asp-items="@Model.AssignedUsers" id="assignedUserDropdown" class="form-control">
                             <option value="">Няма назначен Треньор</option>
                         </select>
